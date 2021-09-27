@@ -61,7 +61,7 @@ char *get_csv_field (char * tmp, int k) {
 void agregarProducto(HashMap* productos);
 void busquedaTipo(HashMap* productos,char* tipo);
 void busquedaMarca(HashMap* productosTipo);
-void busquedaNombre(HashMap* productos,char* nombre);//falta
+void busquedaNombre(HashMap* productos);
 void mostrartodo(HashMap* productos);
 void AgregarCarrito(char nombre, int cantidad, char carrito);//falta
 void ConcretarCompra (char carrito);//falta
@@ -127,13 +127,7 @@ int main(void) {
       case 3:
         busquedaMarca(productosNombre);
         break;
-        /* case 4:
-            Pair* aux = firstMap(productos_nombre);
-            while(aux!=NULL) {
-              printf("%s \n", aux->key);
-              aux = nextMap(productos_nombre);
-            }
-            break;*/
+        busquedaNombre(productosNombre);
       case 5:
         mostrartodo(productosNombre);
         break;
@@ -255,6 +249,28 @@ void busquedaMarca(HashMap* productos){
     while(aux!=NULL) {
         printf("%s",aux->marca);
         if(aux->marca==mar){
+
+          printf(" %s, %s, %s, %d, %d \n",aux->nombre ,aux->marca,aux->tipo, aux->stock, aux->precio );
+          break;
+        }
+    
+      aux = nextMap(productos);
+    }
+
+
+  printf("NO EXISTE");
+
+
+}
+
+void busquedaNombre(HashMap* productos){
+  char mar[15];
+
+  scanf("%s", mar);
+  Producto*  aux= firstMap(productos);
+    while(aux!=NULL) {
+        printf("%s",aux->nombre);
+        if(aux->nombre == mar){
 
           printf(" %s, %s, %s, %d, %d \n",aux->nombre ,aux->marca,aux->tipo, aux->stock, aux->precio );
           break;
