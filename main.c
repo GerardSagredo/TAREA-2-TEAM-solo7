@@ -38,8 +38,8 @@ char *get_csv_field (char * tmp, int k) {
 
         if(tmp[i]== ','){
             if(k==j) {
-              ret[i-ini_i] = 0;
-              return ret;
+               ret[i-ini_i] = 0;
+               return ret;
             }
             j++; ini_i = i+1;
         }
@@ -48,13 +48,15 @@ char *get_csv_field (char * tmp, int k) {
     }
 
     if(k==j) {
-      ret[i-ini_i] = 0;
-      return ret;
+       ret[i-ini_i] = 0;
+       return ret;
     }
 
 
     return NULL;
 }
+
+
 
 
 //************************************
@@ -63,7 +65,7 @@ void busquedaTipo(HashMap* productos,char* tipo);
 void busquedaMarca(HashMap* productosTipo);
 void busquedaNombre(HashMap* productos);
 void mostrartodo(HashMap* productos);
-void AgregarCarrito(char nombre, int cantidad, char carrito);//falta
+void AgregarCarrito(HashMap*);//falta
 void ConcretarCompra (char carrito);//falta
 void exportarCsv(HashMap* productos);//incompleta
 void crearlistaTipo(List * tipos);//falta
@@ -83,8 +85,6 @@ int main(void) {
   while (fgets (linea, 1024, fp) != NULL) {
 
     Producto* p = (Producto*) malloc (sizeof(Producto));
-    
-    //printf("ENTRA");
     
     p->nombre=get_csv_field(linea, 0);
     p->marca=get_csv_field(linea, 1);
@@ -132,7 +132,7 @@ int main(void) {
         mostrartodo(productosNombre);
         break;
       case 6:
-
+       AgregarCarrito(productosNombre);
         break;
       case 7:
 
@@ -281,6 +281,14 @@ void busquedaNombre(HashMap* productos){
 
 
   printf("NO EXISTE");
+
+
+}
+
+
+void AgregarCarrito(HashMap* productos){
+char* car;
+
 
 
 }

@@ -3,7 +3,7 @@
 LAS FUNCIONES QUE NO RESPONDEN CORRECTAMENTE SON :
 -
 
-1 - : void mostrartodo(HashMap* productos) : Los productos se almacenan bien y se pueden leer/mostrar, pero solo antes de entrar a ejecutar el menu principal, luego de eso solo imprime simbolos fuera de lugar y "(NULL)".
+1 - void mostrartodo(HashMap* productos) : Los productos se almacenan bien y se pueden leer/mostrar, pero solo antes de entrar a ejecutar el menu principal, luego de eso solo imprime simbolos fuera de lugar y "(NULL)".
 
 2 - void busquedaTipo(HashMap* productos,char* tipo) : La funcion compila pero no logra asimilar strings iguales.
 
@@ -15,6 +15,7 @@ Notas : - Intentar agregar productos con demasiados espacios puede generar error
 
 
 Puntos premio/castigo:
+-
 Rodrigo : 5
 -
 Gerard : 5
