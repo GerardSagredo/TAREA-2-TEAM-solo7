@@ -14,11 +14,11 @@ void insertMap(HashMap * table, char * key, void * value);
 
 void eraseMap(HashMap * table, char * key);
 
-Pair * searchMap(HashMap * table, char * key);
+void * searchMap(HashMap * table, char * key);
 
-Pair * firstMap(HashMap * table);
+void * firstMap(HashMap * table);
 
-Pair * nextMap(HashMap * table);
+void * nextMap(HashMap * table);
 
 void enlarge(HashMap * map);
 

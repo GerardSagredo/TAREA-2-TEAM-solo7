@@ -12,8 +12,11 @@ typedef struct{ //cambiar tamaños
   int precio;
 }Producto;
 
+
+
+
 //Funcion para leer el k-esimo elemento de un string (separado por comas)
-char *get_csv_fieldk (char * tmp, int k) {
+char *get_csv_field (char * tmp, int k) {
     int open_mark = 0;
     char* ret=(char*) malloc (100*sizeof(char));
     int ini_i=0, i=0;
@@ -57,47 +60,57 @@ char *get_csv_fieldk (char * tmp, int k) {
 //************************************
 void agregarProducto(HashMap* productos);
 void busquedaTipo(HashMap* productos,char* tipo);
-//void exportarCsv(HashMap* productos);
-//void crearlistaTipo(List * tipos);
+void busquedaMarca(HashMap* productosTipo);
+void busquedaNombre(HashMap* productos,char* nombre);//falta
+void mostrartodo(HashMap* productos);
+void AgregarCarrito(char nombre, int cantidad, char carrito);//falta
+void ConcretarCompra (char carrito);//falta
+void exportarCsv(HashMap* productos);//incompleta
+void crearlistaTipo(List * tipos);//falta
 //*************************************
-
 
 
 int main(void) {
   HashMap* productosNombre = createMap(130);
   HashMap* mapTipos = createMap(20);
-  //mapTipos-> = createList ();
+  HashMap* productosTipos = createMap(130);
+  HashMap* productosMarca = createMap(130);
   int cont=20;
   FILE *fp = fopen ("100productos.csv" , "r");
   char linea[1024];
   int k=0;
+  
   while (fgets (linea, 1024, fp) != NULL) {
-    //printf("ENTRA");
+
     Producto* p = (Producto*) malloc (sizeof(Producto));
+    
+    //printf("ENTRA");
+    
     p->nombre=get_csv_field(linea, 0);
     p->marca=get_csv_field(linea, 1);
     p->tipo=get_csv_field(linea, 2);
     p->stock = strtol(get_csv_field(linea, 3) , NULL, 10);
     p->precio= strtol(get_csv_field(linea, 4) , NULL, 10);
+   
     
+
     insertMap(productosNombre,p->nombre , p);
 
     k++; if(k==100) break;
   }
-    
-  Pair *aux = firstMap(productosNombre);
-  while(aux!=NULL) {
-      printf("%s\n", aux->key);
-      aux = nextMap(productosNombre);
-  }
 
+  
+
+  printf("Ingrese un número:\n");
   printf("1 - Agregar producto\n");
   printf("2 - Buscar por tipo\n");
-  printf("3 - Terminar ejecucion\n");
-  printf("4 - \n");
-  printf("5 - Exportar csv\n");
-  printf("Ingrese un número:\n");
-  
+  printf("3 - Buscar por marca\n");
+  printf("4 - Buscar por nombre \n");
+  printf("5 - Mostrar todos los produsctos\n");
+  printf("6 - Agregar al carrito\n");
+  printf("7 - Concretar compra\n");
+  printf("8 - Terminar ejecucion\n");
+  printf("9 - Exportar CSV\n");
   while(1){
     int opcion;
     scanf("%d",&opcion);
@@ -109,11 +122,10 @@ int main(void) {
         printf("ingrese tipo\n");
         char* aux;
         scanf("%s",aux);
-        //busquedaTipo(maplistas,aux);
+        busquedaTipo(mapTipos,aux);
         break;
       case 3:
-        printf("Fin de ejecucion");
-        return 0;
+        busquedaMarca(productosNombre);
         break;
         /* case 4:
             Pair* aux = firstMap(productos_nombre);
@@ -123,21 +135,26 @@ int main(void) {
             }
             break;*/
       case 5:
-        
+        mostrartodo(productosNombre);
+        break;
+      case 6:
 
+        break;
+      case 7:
 
+        break;
+      case 8:
+        printf("Fin de ejecucion");
+        return 0;
+        break;
+      case 9:
+        //exportarCsv(productosNombre);
         break;
     }
     printf("~~~~~~~ Escoja otra operacion a realizar ~~~~~~~\n");
   }
   return 0;
 }
-
-
-
-
-
-
 
 void agregarProducto(HashMap* productos){
 
@@ -150,12 +167,12 @@ void agregarProducto(HashMap* productos){
   p->tipo= (char *)calloc( sizeof( char ), 20 );
   
   printf("nombre: \n");
-  scanf(" %[^\n]s",p->nombre);
+  scanf(" %s",p->nombre);
     
 
   Producto* aux;
   aux = (Producto*)searchMap(productos,p->nombre);
-  if(NULL !=aux){
+  if(aux !=NULL){//al reves
     aux->stock++;
     printf("%d\n",aux->stock);
     return;
@@ -183,19 +200,71 @@ void agregarProducto(HashMap* productos){
 }*/
 
 void busquedaTipo(HashMap* productosTipo,char* tipo){
-  printf("entra buscar\n");
-  Pair* p = (Pair*) malloc (sizeof(Pair));
-  p= searchMap(productosTipo,tipo);
-  while (p!=NULL){
+  
+  int iguales,encontrado = 0;
+  char *busqueda;
+  Pair* aux = (Pair*) malloc (sizeof(Pair));
+  aux = searchMap(productosTipo,tipo);
 
+  Producto* p = (Producto*)malloc(sizeof(Producto));
+  while (aux!=NULL){
+
+    busqueda = strstr(p->tipo, tipo);
+    if(busqueda != NULL ){
+      printf(" %s, %s, %s, %d, %d \n",p->nombre ,p->marca,p->tipo, p->stock, p->precio );
+      encontrado++;
+    }
+    aux = nextMap(productosTipo);
   }
-
-} 
+  if(encontrado == 0){
+    printf("No se encontraron coincidencias\n");
+  }
+} //no coincide palabras
 
 /*void exportarCsv(HashMap* productos){
-
-  Pair* aux=(Pair*)malloc(sizeof(Pair));
+  printf("ERROR");
+  char* filename = "exportado.csv";
   
+  Pair *auxMap = firstMap(productos);
+  Producto* aux=(Producto*)malloc(sizeof(Producto));
+  FILE *fp;
+  int i,j;
+  filename = strcat(filename,"w+");
+  fprintf(fp," %s, %s, %s, %d, %d",aux->nombre,aux->tipo,aux->marca,aux->stock,aux->precio); //FALTO REPETIR ESTA LINEA.
+}*/
+
+void mostrartodo(HashMap* productos){
+
+   Producto* aux = NULL;
+
+   aux= firstMap(productos);
+    while(aux!=NULL) {
+
+      printf(" %s, %s, %s, %d, %d \n",aux->nombre ,aux->marca,aux->tipo, aux->stock, aux->precio );
+      aux = nextMap(productos);
+    }
+
 
 }
-*/
+
+void busquedaMarca(HashMap* productos){
+  char mar[15];
+
+  scanf("%s", mar);
+  Producto*  aux= firstMap(productos);
+    while(aux!=NULL) {
+        printf("%s",aux->marca);
+        if(aux->marca==mar){
+
+          printf(" %s, %s, %s, %d, %d \n",aux->nombre ,aux->marca,aux->tipo, aux->stock, aux->precio );
+          break;
+        }
+    
+      aux = nextMap(productos);
+    }
+
+
+  printf("NO EXISTE");
+
+
+}
